@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Password Reset</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        .box1 {
+            font-family: "Red Hat Display", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 900;
+            font-style: normal;
+        }
+
+        .box2 {
+            font-family: "Red Hat Display", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: bold;
+            font-style: normal;
+        }
+        #pass_reset {
+            margin-top: 70px;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+
+
+
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #2f2f2f;">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3"><img src="{% static 'assets/img/Summit.png' %}" height="50px" alt=""><img
+                src="{% static 'assets/img/Summit1.png' %}" height="30px"></a>
+    </nav>
+
+    {% block content %}
+
+  
+    <div id="pass_reset">
+        <h3 class="font-weight-light">Password reset sent</h3>
+
+
+        <p>We’ve emailed you instructions for setting your password, if an account exists with the email you
+            entered. You should
+            receive them shortly.</p>
+        <p>If you don’t receive an email, please make sure you’ve entered the address you registered with,
+            and check your spam
+            folder.</p>
+    </div>
+    {% endblock %}
+</body>

@@ -1,0 +1,21 @@
+{% extends "student_home.html" %}
+
+{% block student %}
+
+<body>
+  <div style="text-align: center; margin-top: 50px;">
+      <h2>Payment Successful!</h2>
+      <p>Your payment has been successfully processed.</p>
+      <p><strong>Payment ID:</strong> {{ payment_id }}</p>
+      <p>Thank you for your payment. You can now return to the Verify Payment page to submit the Payment ID.</p>
+      
+      <!-- Optional: Add a link back to the student's fee view page -->
+      <a href="{% url 'view_fees_view' %}" style="padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">
+          Back to Fee Details
+      </a>
+  </div>
+</body>
+
+
+
+{% endblock %}

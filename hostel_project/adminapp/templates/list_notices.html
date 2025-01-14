@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+
+
+{% block content %}
+{% load static %}
+
+<div class="container mt-5">
+    <h1>Manage Notices</h1>
+    <div class="row">
+        {% if notices %}
+        {% for i in notices %}
+        <div class="col-12 mt-3">
+            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+                <div class="toast-header">
+                    <img src="{% static 'assets/img/room.png' %}" height="25px" width="25px" class="rounded me-2"
+                        alt="...">
+                    <strong class="me-auto">Announcement</strong>
+                    <small>{{i.date_posted}} </small>
+                </div>
+                <div class="toast-body">
+                    <strong style="text-decoration: underline;">{{i.title}}</strong><br>
+                    {{i.message}}
+                </div>
+                <div class="d-flex justify-content-end mb-2 mx-2">
+                    <a href="{% url 'edit_notice_view' i.id %}" class="btn btn-success mx-1"
+                        style="font-size: small;">Edit</a>
+                    <a href="{% url 'del_notice_view' i.id %}" class="btn btn-danger"
+                        style="font-size: small;">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p><strong>No notices available.</strong></p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

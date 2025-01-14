@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+
+
+{% block content %}
+
+
+<div class="container-fluid px-4">
+    <h2 class="mt-4 mb-3">Complaints</h2>
+    {% if complaints %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Date</th>
+                <th>Subject</th>
+                <th>Description</th>
+                <th>Posted by</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in complaints %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.date_submitted }}</td>
+                <td>{{ i.subject }}</td>
+                <td>{{ i.description }}</td>
+                <td>{{ i.student.user.username }}</td>
+                <td>{{ i.status }}</td>
+                <td><a href="{% url 'update_comp_view' i.id %}" style="font-size: small;"
+                        class="btn btn-success">Edit</a> </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No Complaints found.</p>
+    {% endif %}
+
+
+    {% endblock %}

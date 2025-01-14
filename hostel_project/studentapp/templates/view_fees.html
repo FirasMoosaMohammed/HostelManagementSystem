@@ -1,0 +1,101 @@
+{% extends "student_home.html" %}
+
+{% block student %}
+
+<div class="container-fluid px-4">
+    <h2 class="mt-4 mb-3">Welcome, Student!</h2>
+    <div class="d-flex justify-content-between mb-4">
+        <h4 style="text-decoration: underline;" class="box1 align-items-self">Fee Details</h4>
+        {% if messages %}
+        {% for i in messages %}
+        {% if i.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{i}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% if i.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>{{i}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+
+
+    {% if fees %}
+    {% for i in fees %}
+    <p><strong>Posted at: {{i.reg_date}} </strong></p>
+    <p><strong>Amount:</strong> {{i.amount}}</p>
+    <p><strong>Due-date:</strong> {{i.due_date}}</p>
+    <!-- <p><strong>Status:</strong> {{i.status}}</p> -->
+
+    
+    
+    <!-- <p>Order ID in Template: {{ i.order_id }}</p> -->
+
+
+    <!-- <button onclick="payNow('{{ i.order_id }}', '{{ i.amount }}', '{{ razorpay_key }}')" class="btn btn-primary">Pay
+        Now</button> -->
+    <!-- <button id="rzp-button1" type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Pay Now</button> -->
+    <button id="pay-now-button-{{ fee.id }}"
+        style="padding: 10px 20px; background-color: #F37254; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        Pay Now
+    </button>
+
+    {% endfor %}
+    {% else %}
+    <p><strong>Fees not yet posted!</strong></p>
+    {% endif %}
+</div>
+
+<!-- test card - 4111 1111 1111 1111 -->
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+{% for i in fees %}
+<script>
+    console.log("Razorpay Options:");
+    console.log("Key:", "{{ razorpay_key }}");
+    console.log("Order ID:", "{{ i.razorpay_order_id|escapejs }}");
+    console.log("Amount:", "{{ i.amount|floatformat:0|escapejs }}");
+
+    var options = {
+        "key": "rzp_test_UEcbN83WZm5fMR",
+        "amount": "{{ i.amount|floatformat:0 }}",  // Amount in paise
+        "currency": "INR",
+        "order_id": "{{ i.razorpay_order_id }}",
+        "name": "Summit Hostel",
+        "description": "Fee Payment",
+        "prefill": {
+            "name": "{{ user.username }}",
+            "email": "{{ user.email }}",
+            "contact": "{{ user.student.phone }}"
+        },
+        "handler": function (response) {
+            console.log("success")
+            console.log("Razorpay Response:", response); // Log to confirm values are present
+            console.log("Payment ID:", response.razorpay_payment_id);
+            console.log("Order ID:", response.razorpay_order_id);
+            // alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+            // Optionally, send the payment response to your server for further processing
+            // var form = document.getElementById("myform")
+            window.location.href = "{% url 'payment_success' %}?payment_id=" + response.razorpay_payment_id;
+        },
+        "theme": {
+            "color": "#F37254"
+        }
+    };
+    document.getElementById('pay-now-button-{{ fee.id }}').onclick = function (e) {
+        console.log("Razorpay Options:");
+        console.log("Key:", "{{ razorpay_key }}");
+        console.log("Order ID:", "{{ i.razorpay_order_id }}");
+        console.log("Amount:", "{{ i.amount|floatformat:0 }}");
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+    };
+</script>
+{% endfor %}
+{% endblock %}

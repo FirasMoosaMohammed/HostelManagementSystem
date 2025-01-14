@@ -1,0 +1,62 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header">
+                    <h3 class="text-center font-weight-light my-4 box2">Add Room</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% if messages %}
+                        {% for i in messages %}
+                        {% if i.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>{{i}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+                        {% if i.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{{i}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <div class="form-floating mb-md-0">
+                                    {{form.room_number}}
+                                    <!-- <input class="form-control" id="roomnum" type="text" placeholder="Enter room number" /> -->
+                                    <label for="roomnum">Room Number</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{form.capacity}}
+                            <!-- <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" /> -->
+                            <label for="capacity">Capacity</label>
+                        </div>
+                        <div class="mt-4 mb-0">
+                            <div class="d-grid"><input type="submit" class="btn btn-primary btn-block" value="Add Room">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center py-3">
+                    <div class="small box2"><a style="text-decoration: none; color: black;"
+                            href="{% url 'home_view' %}"><i class="fas fa-tachometer-alt"></i> Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

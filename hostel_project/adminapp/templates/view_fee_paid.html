@@ -1,0 +1,52 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div class="container-fluid px-4">
+    <h2 class="mt-4 mb-3">Payment Status</h2>
+    <div class="d-flex justify-content-between mb-4">
+        <h4 style="text-decoration: underline;" class="box1 align-items-self">Fee Details</h4>
+        {% if messages %}
+        {% for i in messages %}
+        {% if i.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{i}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% if i.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>{{i}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+
+
+    {% if paid %}
+    {% for i in paid %}
+    <!-- <p><strong>Status: {{i.reg_date}} </strong></p> -->
+    <p><strong>Status:</strong> {{i.description}}</p>
+    <!-- <p><strong>Due-date:</strong> {{i.due_date}}</p>
+    <p><strong>Status:</strong> {{i.status}}</p> -->
+
+    
+    
+    <!-- <p>Order ID in Template: {{ i.order_id }}</p> -->
+
+
+    <!-- <button onclick="payNow('{{ i.order_id }}', '{{ i.amount }}', '{{ razorpay_key }}')" class="btn btn-primary">Pay
+        Now</button> -->
+    <!-- <button id="rzp-button1" type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Pay Now</button> -->
+    <button id="pay-now-button-{{ fee.id }}"
+        style="padding: 10px 20px; background-color: #F37254; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        Pay Now
+    </button>
+
+    {% endfor %}
+    {% else %}
+    <p><strong>Fees not yet posted!</strong></p>
+    {% endif %}
+</div>

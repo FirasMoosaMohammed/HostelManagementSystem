@@ -1,0 +1,31 @@
+{% extends "student_home.html" %}
+
+{% block student %}
+{% load static %}
+<div class="container mt-5">
+    <h1>Notices</h1>
+    <div class="row ">
+        {% if notices %}
+        {% for i in notices %}
+        <div class="col-12 mb-3 mt-2">
+            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+                <div class="toast-header">
+                    <img src="{% static 'assets/img/room.png' %}" height="25px" width="25px" class="rounded me-2"
+                        alt="...">
+                    <strong class="me-auto">Announcement</strong>
+                    <small>{{i.date_posted}}</small>
+                </div>
+                <div class="toast-body">
+                    <strong style="text-decoration: underline;">{{i.title}}</strong><br>
+                    {{i.message}}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p><strong>No notices available.</strong></p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

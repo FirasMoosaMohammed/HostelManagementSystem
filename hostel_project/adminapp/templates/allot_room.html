@@ -1,0 +1,123 @@
+{% extends "index.html" %}
+
+
+{% block content %}
+
+<div class="container mt-4">
+    <h3 class="text-center mb-4">Available Rooms</h3>
+    <div class="row">
+        {% if rooms %}
+        {% for room in rooms %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Room: {{ room.room_number }}</h5>
+                    <p class="card-text">
+                        Capacity: {{ room.capacity }}<br>
+                        Occupied: {{ room.occupied }}<br>
+                    </p>
+                </div>
+                <div class="card-footer">
+                    {% if room.is_full %}
+                    <small class="text-danger">Full</small>
+                    {% else %}
+                    <small class="text-success">Available</small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="d-flex justify-content-center align-items-center">
+            <h5 style="color: red;"><strong>No rooms Available!</strong></h5>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header">
+                    <h3 class="text-center font-weight-light my-4 box2">Allot Room</h3>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {% if messages %}
+                        {% for i in messages %}
+                        {% if i.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>{{i}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+                        {% if i.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{{i}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <div class="form-floating mb-md-0">
+                                    {{booking_form.room}}
+                                    <!-- <input class="form-control" id="roomnum" type="text" placeholder="Enter room number" /> -->
+                                    <label for="room">Room</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{booking_form.booking_date}}
+                            <!-- <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" /> -->
+                            <label for="bookingdate">Booking Date</label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <div class="form-floating mb-md-0">
+                                    {{booking_form.checkout_date}}
+                                    <!-- <input class="form-control" id="inputPassword" type="password" placeholder="Create a password" /> -->
+                                    <label for="checkoutdate">Checkout Date</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class=" mb-3">
+                            Status: {{booking_form.status}}
+                            <!-- <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" /> -->
+                            <!-- <label for="bookingstatus">Status</label> -->
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <div class="form-floating mb-md-0">
+                                    {{ room_form.occupied }}
+                                    <label for="occupied">Occupied</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 mb-0">
+                            <div class="d-grid"><input type="submit" class="btn btn-primary btn-block"
+                                    value="Allot room"></div>
+                        </div>
+                    </form>
+          
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+

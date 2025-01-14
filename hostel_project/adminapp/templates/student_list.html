@@ -1,0 +1,121 @@
+{% extends "index.html" %}
+
+
+{% block content %}
+
+<div class="container-fluid px-4">
+    <h2 class="mt-4 mb-3">Students</h2>
+    {% if messages %}
+    {% for i in messages %}
+    {% if i.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{i}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% if i.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>{{i}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    {% if students %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Room Allotted</th>
+                <th>Booking Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in students %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.user.username }}</td>
+                <td>{{ i.phone }}</td>
+                <td>{{ i.address }}</td>
+
+                {% with i.booking_set.last as latest_booking %}
+                <td>
+                    {% if latest_booking %}
+                    {% if latest_booking.status == "Cancelled" %}
+                    Cancelled
+                    {% elif latest_booking.room %}
+                    {{ latest_booking.room.room_number }}
+                    {% else %}
+                    {{ latest_booking.status }}
+                    {% endif %}
+                    {% else %}
+                    Pending
+                    {% endif %}
+                </td>
+                <td>
+                    {% if latest_booking %}
+                    {{ latest_booking.status }}
+                    {% else %}
+                    Pending
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% with i.booking_set.last as latest_booking %}
+                    {% if latest_booking %}
+                    {% if latest_booking.status == "Cancelled" %}
+                    <a href="{% url 'edit_room_view' i.id %}" class="btn btn-secondary">Allot Room</a>
+                    {% else %}
+                    <a href="{% url 'edit_room_view' i.id %}" class="btn btn-secondary">Edit Room</a>
+                    {% endif %}
+                    {% else %}
+                    <a href="{% url 'allot_room_view' i.id %}" class="btn btn-secondary">Allot Room</a>
+                    {% endif %}
+                    {% endwith %}
+
+                    {% if i.fee_set.exists %}
+                    <a href="{% url 'edit_fee_view' i.fee_set.first.id %}" class="btn btn-dark">Edit Fee</a>
+                    {% else %}
+                    <a href="{% url 'add_fee_view' i.id %}" class="btn btn-dark">Allot Fee</a>
+                    {% endif %}
+                </td>
+
+
+                {% endwith %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No students found.</p>
+    {% endif %}
+
+
+
+
+
+
+
+</div>
+
+{% endblock %}
+
+
+<td>
+    {% if latest_booking %}
+    <a href="{% url 'edit_room_view' i.id %}">Edit Room</a>
+    {% else %}
+    <a href="{% url 'allot_room_view' i.id %}">Allot room</a>
+    {% endif %}
+
+    {% if i.fee_set.exists %}
+    <a href="{% url 'edit_fee_view' i.fee_set.first.id %}">Edit Fee</a>
+    {% else %}
+    <a href="{% url 'add_fee_view' i.id %}">Allot Fee</a>
+    {% endif %}
+</td>

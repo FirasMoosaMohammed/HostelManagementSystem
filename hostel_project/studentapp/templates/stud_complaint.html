@@ -1,0 +1,35 @@
+{% extends "student_home.html" %}
+
+{% block student %}
+<div class="container-fluid px-4">
+    <h2 class="mt-4 mb-3"> My Complaints</h2>
+    {% if complaints %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Date</th>
+                <th>Subject</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in complaints %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.date_submitted }}</td>
+                <td>{{ i.subject }}</td>
+                <td>{{ i.description }}</td>
+                <td>{{ i.status }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No Complaints found.</p>
+    {% endif %}
+
+</div>
+{% endblock %}
